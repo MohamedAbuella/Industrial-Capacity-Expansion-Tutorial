@@ -341,11 +341,11 @@
         <div class="nav-section-label">Case Study Modules</div>
 
         <div class="accordion-wrapper">
-            <div class="accordion-header open" onclick="toggleAccordion(this)">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
                 <span>Simulation Modules</span>
                 <span class="accordion-chevron">▶</span>
             </div>
-            <div class="accordion-body open">
+            <div class="accordion-body">
                 <button class="nav-btn" onclick="showView('sec-q1', this)">Module 1: Static Levelized Cost</button>
                 <button class="nav-btn" onclick="showView('sec-q2', this)">Module 2: Carbon Policy Sensitivity</button>
                 <button class="nav-btn" onclick="showView('sec-q3', this)">Module 3: Dynamic Multi-Period Plan</button>
@@ -353,10 +353,19 @@
             </div>
         </div>
 
-        <div class="nav-section-label">Modeling Framework</div>
-        <button class="nav-btn" onclick="showView('sec-tables', this)">Data & Output Browser</button>
-        <button class="nav-btn" onclick="showView('sec-methodology', this)">Mathematical Formulation</button>
-        <button class="nav-btn" onclick="showView('sec-parameters', this)">Baseline Parameters</button>
+        <div class="accordion-wrapper">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <span>Modeling Framework</span>
+                <span class="accordion-chevron">▶</span>
+            </div>
+            <div class="accordion-body">
+                <button class="nav-btn" onclick="showView('sec-tables', this)">Data & Output Browser</button>
+                <button class="nav-btn" onclick="showView('sec-methodology', this)">Mathematical Formulation</button>
+                <button class="nav-btn" onclick="showView('sec-parameters', this)">Baseline Parameters</button>
+            </div>
+        </div>
+
+        <button class="nav-btn" onclick="showView('sec-github', this)">Code & Data Repository</button>
     </div>
 
     <!-- MAIN CONTENT -->
@@ -365,7 +374,7 @@
         <!-- ==================== EXECUTIVE CASE OVERVIEW ==================== -->
         <div id="sec-overview" class="content-view">
             <div class="header-box">
-                <div class="header-tag">Educational Modeling Tutorial</div>
+                <div class="header-tag">Techno-Economic Modeling Case Study</div>
                 <div class="header-title">Biorefinery Capacity Expansion & Decarbonization Modeling</div>
                 <div class="header-subtitle">A techno-economic case study on economies of scale, capital annualization, and multi-period capacity expansion under carbon pricing.</div>
             </div>
@@ -393,7 +402,7 @@
                 </div>
             </div>
 
-           <div class="desc-box" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:24px;">
+            <div class="desc-box" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:24px;">
     <div style="flex:1 1 380px;">
         <strong style="color:var(--primary); font-size:0.96rem;">Executive Summary & Core Insights</strong>
         <p style="margin:6px 0 10px; color:#475569;">
@@ -876,6 +885,26 @@
                     <tr><td>Annual Fixed O&M</td><td>4.0</td><td>% of OCC</td><td>Fixed maintenance, insurance, and routine servicing</td></tr>
                 </tbody>
             </table>
+        </div>
+
+        <!-- ==================== SECTION: GITHUB REPO ==================== -->
+        <div id="sec-github" class="content-view" style="display:none;">
+            <div class="header-box">
+                <div class="header-title">Code and Data Availability</div>
+                <div class="header-subtitle">Open-source repository and model resources for BioRef-Opt.</div>
+            </div>
+            <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+                <h3 style="color: var(--primary); margin-bottom: 12px; font-size: 1.2rem;">GitHub Repo</h3>
+                <p style="color: var(--text-main); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+                    The complete Python model source code file, generated figures and tables, this dashboard, and the tutorial brief are publicly available on GitHub.
+                </p>
+                <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 16px 20px; display: inline-flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 1.2rem;">🔗</span>
+                    <a href="https://github.com/MohamedAbuella/Industrial-Capacity-Expansion-Tutorial" target="_blank" style="color: var(--primary-light); font-weight: 600; text-decoration: none; font-size: 1.05rem;">
+                        https://github.com/MohamedAbuella/Industrial-Capacity-Expansion-Tutorial
+                    </a>
+                </div>
+            </div>
         </div>
 
     </div>
