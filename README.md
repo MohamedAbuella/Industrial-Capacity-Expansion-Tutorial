@@ -91,6 +91,8 @@ subject to:
 
 ## Key Benchmark Findings
 
+> **Interactive Exploration:** You can explore all benchmark results, sensitivity sweeps, and expansion schedules dynamically with interactive vector zoom and live filters in the **[Live Web Dashboard ↗](https://MohamedAbuella.github.io/Industrial-Capacity-Expansion-Tutorial/)**.
+
 ### 1. Static Levelized Production Cost (Maximum Permitted Class)
 
 | Site | Permitted Class | Nameplate Capacity ($S$) | OCC [MEUR] | Annual Charge [MEUR/yr] | Effective Output [Mt/yr] | Fixed Cost [€/t] | Variable Cost [€/t] | Total Levelized Cost [€/t] |
