@@ -10,23 +10,7 @@ A techno-economic modeling framework and educational case study evaluating multi
 
 ---
 
-## Live Interactive Dashboard
-
-> ### **[ Launch Interactive Web Dashboard Online](https://YOUR-GITHUB-USERNAME.github.io/industrial-capacity-expansion-tutorial/)**  
-> *(Replace `YOUR-GITHUB-USERNAME` with your GitHub username after turning on GitHub Pages, or open [`index.html`](./index.html) locally)*
-
-| Dashboard Feature | Description |
-| :--- | :--- |
-| **Interactive Vector Viewports** | Embedded PDF figures with integrated **Zoom In (+)**, **Zoom Out (−)**, **Reset**, and **Fullscreen** controls. |
-| **Dynamic KPI Cards** | Live scorecards tracking baseline costs, carbon crossover tipping points, and 2020–2030 cost trajectories. |
-| **One-Click Data Downloads** | Direct access to download generated benchmark `.csv` and raw `.txt` tables for all modules. |
-| **Standalone & Zero-Dependency** | Runs in any modern web browser without server setup or third-party web frameworks. |
-
-*To run locally:* Clone this repository and double-click [`index.html`](./index.html) in your file manager.
-
----
-
-## Project Overview
+## Tutorial Overview
 
 In industrial energy and chemical systems planning, decision-makers face a fundamental trade-off: **upfront capital economies of scale** versus **recurring operational and emissions liabilities**. 
 
