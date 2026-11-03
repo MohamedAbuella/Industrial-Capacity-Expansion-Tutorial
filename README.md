@@ -17,7 +17,7 @@ This tutorial defines a benchmark regional biochemical production network across
 - **Analytical carbon price break-even thresholds** ($0 - 300\text{ €/t CO}_2$).
 - **Multi-period dynamic capacity build-up** (45 kt/yr in 2020 to 110 kt/yr in 2030) with merit-order economic dispatch.
 
-The full tutorial problem statement is available in [`tutorial_brief.pdf`](./tutorial_brief.pdf).
+The full tutorial problem statement is available in [`tutorial_brief.pdf`](./Tutorial_brief.pdf).
 
 ---
 
