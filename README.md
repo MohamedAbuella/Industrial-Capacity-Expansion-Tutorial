@@ -2,7 +2,7 @@
 
 [![Live Dashboard Preview](https://img.shields.io/badge/📊_Explore_Interactive_Dashboard-Click_Here-blue?style=for-the-badge)](https://MohamedAbuella.github.io/Industrial-Capacity-Expansion-Tutorial/)
 
-A techno-economic modeling framework and educational case study evaluating multi-period industrial capacity expansion, capital economies of scale, and operational decarbonization under carbon pricing.
+A techno-economic modeling framework and case study evaluating multi-period industrial capacity expansion, capital economies of scale, and operational decarbonization under carbon pricing.
 
 ---
 
@@ -125,9 +125,12 @@ subject to:
 - Python 3.9+ (Python 3.10+ recommended)
 - `numpy`, `pandas`, `matplotlib`
 
-```bash
-pip install numpy pandas matplotlib
+---
+
+## License & Technical Specifications
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Optimization: Discrete & LP](https://img.shields.io/badge/Optimization-MILP%20%2F%20Merit--Order-green.svg)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+This project is open-source under the [MIT License](LICENSE). You are free to adapt, extend, and use the code and tutorial materials for educational and research purposes.
