@@ -10,23 +10,23 @@ A techno-economic modeling framework and educational case study evaluating multi
 
 ---
 
-## 🚀 Live Interactive Dashboard
+## Live Interactive Dashboard
 
-> ### 🖥️ **[👉 Launch Interactive Web Dashboard Online](https://YOUR-GITHUB-USERNAME.github.io/industrial-capacity-expansion-tutorial/)**  
+> ### **[ Launch Interactive Web Dashboard Online](https://YOUR-GITHUB-USERNAME.github.io/industrial-capacity-expansion-tutorial/)**  
 > *(Replace `YOUR-GITHUB-USERNAME` with your GitHub username after turning on GitHub Pages, or open [`index.html`](./index.html) locally)*
 
 | Dashboard Feature | Description |
 | :--- | :--- |
-| **🔍 Interactive Vector Viewports** | Embedded PDF figures with integrated **Zoom In (+)**, **Zoom Out (−)**, **Reset**, and **Fullscreen** controls. |
-| **📊 Dynamic KPI Cards** | Live scorecards tracking baseline costs, carbon crossover tipping points, and 2020–2030 cost trajectories. |
-| **📥 One-Click Data Downloads** | Direct access to download generated benchmark `.csv` and raw `.txt` tables for all modules. |
-| **📱 Standalone & Zero-Dependency** | Runs in any modern web browser without server setup or third-party web frameworks. |
+| **Interactive Vector Viewports** | Embedded PDF figures with integrated **Zoom In (+)**, **Zoom Out (−)**, **Reset**, and **Fullscreen** controls. |
+| **Dynamic KPI Cards** | Live scorecards tracking baseline costs, carbon crossover tipping points, and 2020–2030 cost trajectories. |
+| **One-Click Data Downloads** | Direct access to download generated benchmark `.csv` and raw `.txt` tables for all modules. |
+| **Standalone & Zero-Dependency** | Runs in any modern web browser without server setup or third-party web frameworks. |
 
 *To run locally:* Clone this repository and double-click [`index.html`](./index.html) in your file manager.
 
 ---
 
-## 📌 Project Overview
+## Project Overview
 
 In industrial energy and chemical systems planning, decision-makers face a fundamental trade-off: **upfront capital economies of scale** versus **recurring operational and emissions liabilities**. 
 
@@ -41,40 +41,71 @@ The full tutorial problem statement is available in [`tutorial_brief.pdf`](./tut
 
 ---
 
-## 🔬 Core Methodology & Mathematical Formulation
+## Core Methodology & Mathematical Formulation
 
 ### 1. Capital Cost Scaling & Annualization
-Overnight Capital Cost ($\text{OCC}$) scales non-linearly with plant nameplate capacity $S$:
-$$\text{OCC}(S) = \text{OCC}_{\text{ref}} \left(\frac{S}{S_{\text{ref}}}\right)^b = 30 \times \left(\frac{S}{60}\right)^{0.70} \quad [\text{MEUR}]$$
 
-Capital expenditure is converted into an equivalent annual charge rate $f$ using the Capital Recovery Factor ($\text{CRF}$) at discount rate $r = 8\%$ over economic lifetime $L = 20\text{ years}$, plus fixed O&M ($\text{FOM}_{\%} = 4\%$):
-$$\text{CRF} = \frac{r(1+r)^L}{(1+r)^L - 1} = \frac{0.08(1.08)^{20}}{(1.08)^{20} - 1} \approx 0.101852 \quad [\text{yr}^{-1}]$$
-$$f = \text{CRF} + \text{FOM}_{\%} = 0.101852 + 0.040000 = 0.141852 \quad [\text{yr}^{-1}]$$
+Overnight Capital Cost ($\mathrm{OCC}$) scales non-linearly with plant nameplate capacity $S$:
 
-At plant availability $a = 85\%$, annual effective output is $Q_{\text{eff}} = a \cdot S$. Levelized fixed capital cost is:
-$$c_{\text{fixed}}(S) = \frac{\text{OCC}(S) \cdot f}{a \cdot S} \cdot 10^3 \quad [\text{€/t product} \equiv \text{MEUR/Mt product}]$$
-$$\text{Total Levelized Cost}_i(S) = c_{\text{fixed}}(S) + c_{\text{var}, i} \quad [\text{€/t product}]$$
+$$
+\mathrm{OCC}(S) = \mathrm{OCC}_{\mathrm{ref}} \left(\frac{S}{S_{\mathrm{ref}}}\right)^b = 30 \times \left(\frac{S}{60}\right)^{0.70} \quad [\mathrm{MEUR}]
+$$
 
-### 2. Analytical Carbon Price Break-Even Crossover
-Under a carbon price $P_{\text{CO}_2}$, total unit cost incorporates emissions intensity $I_{\text{CO}_2, i}$ ($\text{t CO}_2/\text{t product}$):
-$$\text{Cost}_i(P_{\text{CO}_2}) = \text{Base Cost}_i + P_{\text{CO}_2} \cdot I_{\text{CO}_2, i}$$
+Capital expenditure is converted into an equivalent annual charge rate $f$ using the Capital Recovery Factor ($\mathrm{CRF}$) at discount rate $r = 8\%$ over economic lifetime $L = 20\text{ years}$, plus fixed O&M ($\mathrm{FOM} = 4\%$):
 
-The analytical indifference threshold $P^*_{i,j}$ between competing sites $i$ and $j$ is derived as:
-$$P^*_{i,j} = \frac{\text{Base Cost}_j - \text{Base Cost}_i}{I_{\text{CO}_2, i} - I_{\text{CO}_2, j}}$$
+$$
+\mathrm{CRF} = \frac{r(1+r)^L}{(1+r)^L - 1} = \frac{0.08(1.08)^{20}}{(1.08)^{20} - 1} \approx 0.101852 \quad [\mathrm{yr}^{-1}]
+$$
 
-### 3. Multi-Period Mixed-Integer Capacity Planning & Dispatch
-For multi-period demand ($D_{2020} = 45\text{ kt/yr}$, $D_{2030} = 110\text{ kt/yr}$), the model solves:
-$$\min \sum_{t \in \{2020, 2030\}} \left( \sum_{i} \text{Annual Capital Charge}_{i,t} + \sum_{i} c_{\text{var}, i} \cdot q_{i,t} \right)$$
-subject to:
-1. **Discrete Modular Sizing:** $S_{i,t} \in \{0, 30, 60, 120\}\text{ kt/yr}$ subject to site upper bounds (Site A: 120, Site B: 60, Site C: 30).
-2. **Brownfield Expansion Rule:** Capacities persist ($S_{i,2030} \ge S_{i,2020}$). Upgrades pay incremental OCC:
-   $$\Delta\text{OCC}_i = \text{OCC}(S_{i,2030}) - \text{OCC}(S_{i,2020})$$
-3. **Availability Limit:** Production is bounded by availability: $q_{i,t} \le 0.85 \cdot S_{i,t}$.
-4. **Merit-Order Economic Dispatch:** Lowest variable cost dispatched first ($c_{\text{var}, A} = 90 < c_{\text{var}, B} = 105 < c_{\text{var}, C} = 128\text{ €/t}$).
+$$
+f = \mathrm{CRF} + \mathrm{FOM} = 0.101852 + 0.040000 = 0.141852 \quad [\mathrm{yr}^{-1}]
+$$
+
+At plant availability $a = 85\%$, annual effective output is $Q_{\mathrm{eff}} = a \cdot S$. Levelized fixed capital cost is:
+
+$$
+c_{\mathrm{fixed}}(S) = \frac{\mathrm{OCC}(S) \cdot f}{a \cdot S} \cdot 10^3 \quad [\text{€/t product} \equiv \text{MEUR/Mt product}]
+$$
+
+$$
+\text{Total Levelized Cost}_i(S) = c_{\mathrm{fixed}}(S) + c_{\mathrm{var}, i} \quad [\text{€/t product}]
+$$
 
 ---
 
-## 📊 Key Benchmark Findings
+### 2. Analytical Carbon Price Break-Even Crossover
+
+Under a carbon price $P_{\mathrm{CO}_2}$, total unit cost incorporates emissions intensity $I_{\mathrm{CO}_2, i}$ ($\text{t CO}_2/\text{t product}$):
+
+$$
+\text{Cost}_i(P_{\mathrm{CO}_2}) = \text{Base Cost}_i + P_{\mathrm{CO}_2} \cdot I_{\mathrm{CO}_2, i}
+$$
+
+The analytical indifference threshold $P^{\ast}_{i,j}$ between competing sites $i$ and $j$ is derived by setting their total costs equal:
+
+$$
+P^{\ast}_{i,j} = \frac{\text{Base Cost}_j - \text{Base Cost}_i}{I_{\mathrm{CO}_2, i} - I_{\mathrm{CO}_2, j}}
+$$
+
+---
+
+### 3. Multi-Period Mixed-Integer Capacity Planning & Dispatch
+
+For multi-period demand ($D_{2020} = 45\text{ kt/yr}$, $D_{2030} = 110\text{ kt/yr}$), the model solves:
+
+$$
+\min \sum_{t \in \{2020, 2030\}} \left( \sum_{i} \text{Annual Capital Charge}_{i,t} + \sum_{i} c_{\mathrm{var}, i} \cdot q_{i,t} \right)
+$$
+
+subject to:
+1. **Discrete Modular Sizing:** $S_{i,t} \in \{0, 30, 60, 120\}\text{ kt/yr}$ subject to site upper bounds (Site A: 120, Site B: 60, Site C: 30).
+2. **Brownfield Expansion Rule:** Capacities persist ($S_{i,2030} \ge S_{i,2020}$). Upgrades pay incremental OCC: $\Delta\mathrm{OCC}_i = \mathrm{OCC}(S_{i,2030}) - \mathrm{OCC}(S_{i,2020})$.
+3. **Availability Limit:** Production is bounded by availability: $q_{i,t} \le 0.85 \cdot S_{i,t}$.
+4. **Merit-Order Economic Dispatch:** Lowest variable cost dispatched first ($c_{\mathrm{var}, A} = 90 < c_{\mathrm{var}, B} = 105 < c_{\mathrm{var}, C} = 128\text{ €/t}$).
+
+---
+
+## Key Benchmark Findings
 
 ### 1. Static Levelized Production Cost (Maximum Permitted Class)
 
@@ -106,7 +137,7 @@ subject to:
 
 ---
 
-## 🚀 How to Run the Model Locally
+## How to Run the Model Locally
 
 ### 1. Prerequisites
 - Python 3.9+ (Python 3.10+ recommended)
