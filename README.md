@@ -1,9 +1,10 @@
 # Industrial Capacity Expansion & Decarbonization Modeling
 
+[![Live Dashboard Preview](https://img.shields.io/badge/📊_Explore_Interactive_Dashboard-Click_Here-blue?style=for-the-badge)](https://MohamedAbuella.github.io/Industrial-Capacity-Expansion-Tutorial/)
+
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Optimization: Discrete & LP](https://img.shields.io/badge/Optimization-MILP%20%2F%20Merit--Order-green.svg)]()
-[![Live Dashboard](https://img.shields.io/badge/Live%20Dashboard-Explore%20Online-1e3a8a?style=flat&logo=googlechrome&logoColor=white)](https://mohamedabuella.github.io/Industrial-Capacity-Expansion-Tutorial/)
 
 A techno-economic modeling framework and educational case study evaluating multi-period industrial capacity expansion, capital economies of scale, and operational decarbonization under carbon pricing.
 
