@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biorefinery Capacity Expansion & Decarbonization | Techno-Economic Case Study</title>
+
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #2563eb;
+            --sidebar-bg: #f8fafc;
+            --sidebar-border: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-main);
+            background-color: #f1f5f9;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- SIDEBAR --- */
+        #sidebar {
+            width: 350px;
+            min-width: 350px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 16px;
+            overflow-y: auto;
+        }
+
+        .brand-box {
+            margin-bottom: 16px;
+        }
+        .brand-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+        .brand-subtitle {
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: var(--primary-light);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-top: 2px;
+        }
+
+        .path-settings { margin-bottom: 16px; }
+        .path-settings details { background:#fff; border:1px solid var(--border-color); border-radius:8px; padding:8px 12px; }
+        .path-settings summary { cursor:pointer; font-weight:600; font-size:0.80rem; color:#334155; }
+        .path-settings label { display:block; font-size:0.75rem; color:#475569; margin:8px 0 4px; }
+        .path-settings input[type=text] { width:100%; box-sizing:border-box; padding:6px 8px; font-size:0.75rem; border:1px solid #cbd5e1; border-radius:6px; background: #f8fafc; color: #475569; }
+        #status-msg { font-size:0.74rem; color:#16a34a; margin-top:6px; font-weight:500; }
+
+        .nav-section-label {
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 16px 8px 6px 8px;
+        }
+
+        .nav-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.86rem;
+            color: #334155;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            margin-bottom: 3px;
+            transition: all 0.15s ease;
+            font-weight: 500;
+            text-align: left;
+        }
+        .nav-btn:hover { background-color: #e2e8f0; color: var(--primary-light); }
+        .nav-btn.active {
+            background-color: #e0e7ff;
+            color: var(--primary);
+            font-weight: 700;
+            border: 1px solid #c7d2fe;
+        }
+
+        .accordion-wrapper { margin-bottom: 4px; }
+        .accordion-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.86rem;
+            color: #334155;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            text-align: left;
+        }
+        .accordion-header:hover { background-color: #e2e8f0; }
+        .accordion-header.open { color: var(--primary); font-weight: 700; }
+        .accordion-chevron { font-size: 0.65rem; transition: transform 0.2s ease; }
+        .accordion-header.open .accordion-chevron { transform: rotate(90deg); }
+        .accordion-body {
+            display: none;
+            padding-left: 10px;
+            margin-top: 2px;
+            border-left: 2px solid #cbd5e1;
+            margin-left: 10px;
+        }
+        .accordion-body.open { display: block; }
+        .accordion-body .nav-btn { font-size: 0.82rem; padding: 6px 10px; }
+
+        .nav-divider { height: 1px; background-color: var(--border-color); margin: 12px 4px; }
+
+        /* --- CONTENT AREA --- */
+        #content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px 40px;
+        }
+
+        .header-box { margin-bottom: 22px; }
+        .header-tag {
+            display: inline-block;
+            background: #e0e7ff;
+            color: var(--primary);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+        }
+        .header-title { font-size: 1.55rem; font-weight: 700; color: var(--primary); }
+        .header-subtitle { font-size: 0.92rem; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+        .kpi-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 16px 18px;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--primary-light);
+        }
+        .kpi-title { font-size: 0.74rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+        .kpi-value { font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin-top: 4px; }
+        .kpi-delta { font-size: 0.78rem; color: #16a34a; margin-top: 2px; }
+        .kpi-delta.neg { color: #dc2626; }
+
+        .tab-bar {
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 18px;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 9px 16px;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+        }
+        .tab-btn.active {
+            color: var(--primary-light);
+            border-bottom-color: var(--primary-light);
+            font-weight: 600;
+        }
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
+
+        /* --- FIGURE CARD & ZOOM TOOLBAR --- */
+        .figure-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 22px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .figure-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1e293b;
+            color: #ffffff;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #334155;
+        }
+        .figure-toolbar .tb-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .figure-toolbar .tb-btn {
+            background: #334155;
+            border: 1px solid #475569;
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.78rem;
+            font-weight: 500;
+            transition: background 0.15s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            user-select: none;
+        }
+        .figure-toolbar .tb-btn:hover { background: #475569; }
+        .zoom-indicator {
+            min-width: 45px;
+            text-align: center;
+            font-weight: 600;
+            color: #93c5fd;
+            font-size: 0.82rem;
+        }
+
+        .viewport-wrapper {
+            width: 100%;
+            height: 600px;
+            overflow: auto;
+            position: relative;
+            background: #ffffff;
+        }
+        .zoom-target {
+            width: 100%;
+            height: 590px;
+            transform-origin: 0 0;
+            transition: transform 0.15s ease-out;
+        }
+        .zoom-target object, .zoom-target iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            background: #ffffff;
+        }
+
+        .caption-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 9px 16px;
+            font-size: 0.84rem;
+            color: #475569;
+            background-color: #f8fafc;
+            border-top: 1px solid var(--border-color);
+        }
+        .caption-download-link {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .caption-download-link:hover { text-decoration: underline; }
+
+        /* Tables & Descriptions */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            font-size: 0.88rem;
+        }
+        th, td { padding: 11px 15px; text-align: left; }
+        th { background: #f8fafc; font-weight: 600; color: #475569; border-bottom: 1px solid var(--border-color); }
+        tr:not(:last-child) td { border-bottom: 1px solid #f1f5f9; }
+
+        .two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .desc-box {
+            background: #ffffff;
+            border-left: 4px solid var(--primary-light);
+            padding: 14px 18px;
+            border-radius: 6px;
+            font-size: 0.90rem;
+            color: #334155;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+        .desc-formula {
+            font-family: 'Courier New', Courier, monospace;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <div id="sidebar">
+        <div class="brand-box">
+            <div class="brand-title">BioRef-Opt</div>
+            <div class="brand-subtitle">Techno-Economic Modeling Tutorial</div>
+        </div>
+
+        <div class="path-settings">
+            <details>
+                <summary>⚙️ Local Project Path</summary>
+                <label for="rootPath">Folder Structure:</label>
+                <input type="text" id="rootPath" value="./" readonly>
+            </details>
+            <div id="status-msg">Assets connected (figures/ & tables/)</div>
+        </div>
+
+        <button class="nav-btn active" onclick="showView('sec-overview', this)">Executive Case Overview</button>
+
+        <div class="nav-section-label">Case Study Modules</div>
+
+        <div class="accordion-wrapper">
+            <div class="accordion-header open" onclick="toggleAccordion(this)">
+                <span>Simulation Modules</span>
+                <span class="accordion-chevron">▶</span>
+            </div>
+            <div class="accordion-body open">
+                <button class="nav-btn" onclick="showView('sec-q1', this)">Module 1: Static Levelized Cost</button>
+                <button class="nav-btn" onclick="showView('sec-q2', this)">Module 2: Carbon Policy Sensitivity</button>
+                <button class="nav-btn" onclick="showView('sec-q3', this)">Module 3: Dynamic Multi-Period Plan</button>
+                <button class="nav-btn" onclick="showView('sec-all-tasks', this)">Cross-Module Synthesis</button>
+            </div>
+        </div>
+
+        <div class="nav-section-label">Modeling Framework</div>
+        <button class="nav-btn" onclick="showView('sec-tables', this)">Data & Output Browser</button>
+        <button class="nav-btn" onclick="showView('sec-methodology', this)">Mathematical Formulation</button>
+        <button class="nav-btn" onclick="showView('sec-parameters', this)">Baseline Parameters</button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="content-area">
+
+        <!-- ==================== EXECUTIVE CASE OVERVIEW ==================== -->
+        <div id="sec-overview" class="content-view">
+            <div class="header-box">
+                <div class="header-tag">Educational Modeling Tutorial</div>
+                <div class="header-title">Biorefinery Capacity Expansion & Decarbonization Modeling</div>
+                <div class="header-subtitle">A techno-economic case study on economies of scale, capital annualization, and multi-period capacity expansion under carbon pricing.</div>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-title">Lowest Baseline Cost</div>
+                    <div class="kpi-value">Site A</div>
+                    <div class="kpi-delta">157.78 €/t (0 €/tCO₂ tax)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">A → B Break-Even CO₂</div>
+                    <div class="kpi-value">122.66 €/t</div>
+                    <div class="kpi-delta neg">Scale advantage eroded</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">B → C Break-Even CO₂</div>
+                    <div class="kpi-value">169.15 €/t</div>
+                    <div class="kpi-delta">Cleanest tech switch (0.20 t/t)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">2020 → 2030 Average Cost</div>
+                    <div class="kpi-value">177.75 €/t</div>
+                    <div class="kpi-delta">Drops from 184.57 €/t (−3.7%)</div>
+                </div>
+            </div>
+
+           <div class="desc-box" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:24px;">
+    <div style="flex:1 1 380px;">
+        <strong style="color:var(--primary); font-size:0.96rem;">Executive Summary & Core Insights</strong>
+        <p style="margin:6px 0 10px; color:#475569;">
+            This tutorial models capacity planning and economic dispatch across three prospective biorefinery sites (A, B, and C) facing non-linear capital scaling (<span class="desc-formula">b = 0.70</span>) and escalating carbon tax policies.
+        </p>
+        <ul style="margin-left:18px; color:#334155; line-height:1.6;">
+            <li><strong>Scale Advantage (0–122.66 €/tCO₂):</strong> Site A dominates baseline economics (157.78 €/t) through economies of scale at its 120 kt/yr maximum size class and the lowest variable cost (90 €/t).</li>
+            <li><strong>Carbon Tipping Points:</strong> Competitiveness transfers to Site B at <strong>122.66 €/tCO₂</strong>, and to the lowest-emission facility (Site C) above <strong>169.15 €/tCO₂</strong>.</li>
+            <li><strong>Optimal 2020–2030 Path:</strong> Phased expansion at Site A (Medium → Large) coupled with an initial Small build at Site B minimizes the summed 2020 and 2030 annual system costs.</li>
+        </ul>
+    </div>
+    <div style="flex:0 0 210px; background:#f8fafc; border:1px solid var(--border-color); border-radius:8px; padding:14px; text-align:center;">
+        <span style="font-size:1.6rem; display:block; margin-bottom:4px;">📄</span>
+        <strong style="font-size:0.82rem; color:var(--primary); display:block; margin-bottom:4px;">Problem Specification</strong>
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:10px;">Full technological data, constraints & formulation.</p>
+        <a href="tutorial_brief.pdf" target="_blank" style="display:inline-block; width:100%; text-align:center; padding:6px 0; background:var(--primary); color:#fff; text-decoration:none; font-weight:600; border-radius:5px; font-size:0.78rem;">
+            Open Tutorial Brief (PDF)
+        </a>
+    </div>
+</div>
+
+            <!-- Overview Figure Card -->
+            <div class="figure-card">
+                <div class="figure-toolbar">
+                    <div class="tb-group"><span>Figure: <strong>Levelized Production Cost Decomposition by Plant Size</strong></span></div>
+                    <div class="tb-group">
+                        <button class="tb-btn" onclick="zoomFigure('ov', -0.15)">Zoom −</button>
+                        <span id="zoom-indicator-ov" class="zoom-indicator">100%</span>
+                        <button class="tb-btn" onclick="zoomFigure('ov', 0.15)">Zoom +</button>
+                        <button class="tb-btn" onclick="zoomFigure('ov', 0, true)">Reset</button>
+                    </div>
+                    <div class="tb-group">
+                        <a id="btn-fs-ov" class="tb-btn" href="figures/fig_Q1_static_cost.pdf" target="_blank">🔗 Open Fullscreen</a>
+                        <a id="btn-dl-ov" class="tb-btn" href="figures/fig_Q1_static_cost.pdf" download="fig_Q1_static_cost.pdf">⬇️ Download PDF</a>
+                    </div>
+                </div>
+                <div class="viewport-wrapper" id="viewport-wrapper-ov">
+                    <div class="zoom-target" id="zoom-target-ov">
+                        <object id="obj-ov" data="figures/fig_Q1_static_cost.pdf#toolbar=1&navpanes=0&view=Fit" type="application/pdf">
+                            <p style="padding:20px;text-align:center;">PDF viewer not embedded. <a href="figures/fig_Q1_static_cost.pdf" target="_blank">Click to open PDF directly</a>.</p>
+                        </object>
+                    </div>
+                </div>
+                <div class="caption-bar">
+                    <span>Figure 1: Levelized production cost decomposition comparing fixed capital recovery with variable costs across plant sizes.</span>
+                    <a class="caption-download-link" href="tables/Table_Q1_Static_Cost.csv" download>⬇️ Download Table (CSV)</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== MODULE 1 ==================== -->
+        <div id="sec-q1" class="content-view" style="display:none;">
+            <div class="header-box">
+                <div class="header-tag">Module 1 · Techno-Economic Fundamentals</div>
+                <div class="header-title">Static Levelized Production Cost at Maximum Permitted Sizing</div>
+                <div class="header-subtitle">Evaluating overnight capital annualization, fixed O&M rates, and unit levelized costs at 85% availability.</div>
+            </div>
+
+            <div class="tab-bar">
+                <button class="tab-btn active" onclick="switchTab(this, 'tab-q1-fig')">Vector Figure (PDF)</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tab-q1-table')">Data Table</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tab-q1-desc')">Techno-Economic Discussion</button>
+            </div>
+
+            <div id="tab-q1-fig" class="tab-pane active">
+                <div class="figure-card">
+                    <div class="figure-toolbar">
+                        <div class="tb-group"><span>Diagram: <strong>Figure 1 · Static Levelized Cost Breakdown</strong></span></div>
+                        <div class="tb-group">
+                            <button class="tb-btn" onclick="zoomFigure('q1', -0.15)">Zoom −</button>
+                            <span id="zoom-indicator-q1" class="zoom-indicator">100%</span>
+                            <button class="tb-btn" onclick="zoomFigure('q1', 0.15)">Zoom +</button>
+                            <button class="tb-btn" onclick="zoomFigure('q1', 0, true)">Reset</button>
+                        </div>
+                        <div class="tb-group">
+                            <a id="btn-fs-q1" class="tb-btn" href="figures/fig_Q1_static_cost.pdf" target="_blank">🔗 Open Fullscreen</a>
+                            <a id="btn-dl-q1" class="tb-btn" href="figures/fig_Q1_static_cost.pdf" download="fig_Q1_static_cost.pdf">⬇️ Download PDF</a>
+                        </div>
+                    </div>
+                    <div class="viewport-wrapper" id="viewport-wrapper-q1">
+                        <div class="zoom-target" id="zoom-target-q1">
+                            <object id="obj-q1" data="figures/fig_Q1_static_cost.pdf#toolbar=1&navpanes=0&view=Fit" type="application/pdf">
+                                <p style="padding:20px;text-align:center;">PDF not displayed. <a href="figures/fig_Q1_static_cost.pdf" target="_blank">Open PDF</a>.</p>
+                            </object>
+                        </div>
+                    </div>
+                    <div class="caption-bar">
+                        <span>Unit Fixed Cost (Capital Annuity + FOM) and Variable Production Cost for Sites A, B, and C.</span>
+                        <a class="caption-download-link" href="tables/Table_Q1_Static_Cost.txt" download>⬇️ Raw Text File</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-q1-table" class="tab-pane">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Site</th><th>Largest Permitted Class</th><th>Nameplate Capacity (kt/yr)</th><th>Overnight Capital (MEUR)</th><th>Annual Fixed Charge (MEUR/yr)</th><th>Annual Output (Mt/yr)</th><th>Fixed Cost (EUR/t)</th><th>Variable Cost (EUR/t)</th><th>Total Unit Cost (EUR/t)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Site A</strong></td><td>Large</td><td>120.0</td><td>48.74</td><td>6.913</td><td>0.1020</td><td>67.78</td><td>90.00</td><td><strong>157.78</strong></td></tr>
+                        <tr><td><strong>Site B</strong></td><td>Medium</td><td>60.0</td><td>30.00</td><td>4.256</td><td>0.0510</td><td>83.44</td><td>105.00</td><td><strong>188.44</strong></td></tr>
+                        <tr><td><strong>Site C</strong></td><td>Small</td><td>30.0</td><td>18.47</td><td>2.620</td><td>0.0255</td><td>102.73</td><td>128.00</td><td><strong>230.73</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="tab-q1-desc" class="tab-pane">
+                <div class="desc-box">
+                    <strong>Capital Annualization Principle & Economic Scaling:</strong><br>
+                    Annualization reconciles lumpy upfront capital expenditure with recurring operational expenditure by converting overnight investment into an equivalent annual fixed charge via the capital recovery factor (<span class="desc-formula">CRF = 10.19%</span> at 8% WACC over 20 years) plus 4% fixed O&M, yielding <span class="desc-formula">f = 14.19%/yr</span>. Site A achieves the lowest levelized production cost (157.78 EUR/t) because it combines the lowest variable cost (90 EUR/t) with the lowest unit fixed cost: deploying its maximum permitted capacity (120 kt/yr) exploits economies of scale (<span class="desc-formula">b = 0.70</span>) to dilute unit fixed costs to 67.78 EUR/t. Conversely, Site C is restricted to 30 kt/yr, yielding an adverse unit fixed cost of 102.73 EUR/t and the highest total cost (230.73 EUR/t).
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== MODULE 2 ==================== -->
+        <div id="sec-q2" class="content-view" style="display:none;">
+            <div class="header-box">
+                <div class="header-tag">Module 2 · Policy & Sensitivity Analysis</div>
+                <div class="header-title">Cost Competitiveness Under Carbon Pricing (0 to 300 EUR/t CO₂)</div>
+                <div class="header-subtitle">Evaluating emission intensities, carbon tax liabilities, and analytical break-even crossover points.</div>
+            </div>
+
+            <div class="tab-bar">
+                <button class="tab-btn active" onclick="switchTab(this, 'tab-q2-fig')">Carbon Price Sweep (PDF)</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tab-q2-be')">Break-Even Matrix</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tab-q2-desc')">Policy & Abatement Insights</button>
+            </div>
+
+            <div id="tab-q2-fig" class="tab-pane active">
+                <div class="figure-card">
+                    <div class="figure-toolbar">
+                        <div class="tb-group"><span>Diagram: <strong>Figure 2 · Production Cost Trajectory vs Carbon Price</strong></span></div>
+                        <div class="tb-group">
+                            <button class="tb-btn" onclick="zoomFigure('q2', -0.15)">Zoom −</button>
+                            <span id="zoom-indicator-q2" class="zoom-indicator">100%</span>
+                            <button class="tb-btn" onclick="zoomFigure('q2', 0.15)">Zoom +</button>
+                            <button class="tb-btn" onclick="zoomFigure('q2', 0, true)">Reset</button>
+                        </div>
+                        <div class="tb-group">
+                            <a id="btn-fs-q2" class="tb-btn" href="figures/fig_Q2_carbon_sweep.pdf" target="_blank">🔗 Open Fullscreen</a>
+                            <a id="btn-dl-q2" class="tb-btn" href="figures/fig_Q2_carbon_sweep.pdf" download="fig_Q2_carbon_sweep.pdf">⬇️ Download PDF</a>
+                        </div>
+                    </div>
+                    <div class="viewport-wrapper" id="viewport-wrapper-q2">
+                        <div class="zoom-target" id="zoom-target-q2">
+                            <object id="obj-q2" data="figures/fig_Q2_carbon_sweep.pdf#toolbar=1&navpanes=0&view=Fit" type="application/pdf">
+                                <p style="padding:20px;text-align:center;">PDF not displayed. <a href="figures/fig_Q2_carbon_sweep.pdf" target="_blank">Open PDF</a>.</p>
+                            </object>
+                        </div>
+                    </div>
+                    <div class="caption-bar">
+                        <span>Figure 2: Total unit production cost (EUR/t) vs. carbon tax with shaded least-cost competitiveness zones.</span>
+                        <a class="caption-download-link" href="tables/Table_Q2_Breakeven.csv" download>⬇️ Download Break-Even CSV</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-q2-be" class="tab-pane">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Site Comparison</th><th>Break-Even Carbon Price (EUR/tCO₂)</th><th>Dominance Regime & Market Behavior</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Site A vs Site B</strong></td><td><strong>122.66</strong></td><td>0 to 122.66 EUR/tCO₂: Site A is least-cost</td></tr>
+                        <tr><td><strong>Site B vs Site C</strong></td><td><strong>169.15</strong></td><td>122.66 to 169.15 EUR/tCO₂: Site B is least-cost</td></tr>
+                        <tr><td><strong>Site A vs Site C</strong></td><td><strong>145.91</strong></td><td>Not on the lower envelope: Site B is cheaper than both A and C at this price</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="tab-q2-desc" class="tab-pane">
+                <div class="desc-box">
+                    <strong>Carbon Price Crossover Insights:</strong><br>
+                    Below 122.66 EUR/t CO2, Site A dominates on pure capital-scale efficiency despite being carbon-intensive (0.70 t CO2/t). In the intermediate bracket of 122.66 to 169.15 EUR/t CO2, Site B is least-cost, balancing moderate scale with lower carbon intensity. Above 169.15 EUR/t CO2, the scale advantage of large facilities is fully eroded by carbon liabilities, making Site C (the cleanest facility at 0.20 t CO2/t) the most cost-competitive option. Note that the A vs C crossover (145.91 EUR/t CO2) is not a regime boundary: at that price Site B is already cheaper than both A and C.
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== MODULE 3 ==================== -->
+        <div id="sec-q3" class="content-view" style="display:none;">
+            <div class="header-box">
+                <div class="header-tag">Module 3 · Dynamic Capacity Planning</div>
+                <div class="header-title">Capacity Build-Up & Multi-Period Expansion Optimization (2020 to 2030)</div>
+                <div class="header-subtitle">Evaluating discrete plant additions, incremental capital scaling, and merit-order economic dispatch.</div>
+            </div>
+
+            <div class="tab-bar">
+                <button class="tab-btn active" onclick="switchTab(this, 'tab-q3-fig1')">Capacity & Dispatch (PDF)</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tab-q3-fig2')">System Expenditure (PDF)</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tab-q3-inv')">Investment Schedule</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tab-q3-disp')">Dispatch & Unit Cost</button>
+            </div>
+
+            <div id="tab-q3-fig1" class="tab-pane active">
+                <div class="figure-card">
+                    <div class="figure-toolbar">
+                        <div class="tb-group"><span>Diagram: <strong>Figure 3 · Capacity Expansion & Dispatch Profile</strong></span></div>
+                        <div class="tb-group">
+                            <button class="tb-btn" onclick="zoomFigure('q3a', -0.15)">Zoom −</button>
+                            <span id="zoom-indicator-q3a" class="zoom-indicator">100%</span>
+                            <button class="tb-btn" onclick="zoomFigure('q3a', 0.15)">Zoom +</button>
+                            <button class="tb-btn" onclick="zoomFigure('q3a', 0, true)">Reset</button>
+                        </div>
+                        <div class="tb-group">
+                            <a id="btn-fs-q3a" class="tb-btn" href="figures/fig_Q3_capacity_dispatch.pdf" target="_blank">🔗 Open Fullscreen</a>
+                            <a id="btn-dl-q3a" class="tb-btn" href="figures/fig_Q3_capacity_dispatch.pdf" download="fig_Q3_capacity_dispatch.pdf">⬇️ Download PDF</a>
+                        </div>
+                    </div>
+                    <div class="viewport-wrapper" id="viewport-wrapper-q3a">
+                        <div class="zoom-target" id="zoom-target-q3a">
+                            <object id="obj-q3a" data="figures/fig_Q3_capacity_dispatch.pdf#toolbar=1&navpanes=0&view=Fit" type="application/pdf">
+                                <p style="padding:20px;text-align:center;">PDF not displayed. <a href="figures/fig_Q3_capacity_dispatch.pdf" target="_blank">Open PDF</a>.</p>
+                            </object>
+                        </div>
+                    </div>
+                    <div class="caption-bar">
+                        <span>Figure 3: Installed nominal/effective capacity vs. product demand and merit-order dispatch allocation.</span>
+                        <a class="caption-download-link" href="tables/Table_Q3_Investment_Schedule.csv" download>⬇️ Download Schedule CSV</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-q3-fig2" class="tab-pane">
+                <div class="figure-card">
+                    <div class="figure-toolbar">
+                        <div class="tb-group"><span>Diagram: <strong>Figure 4 · Annual System Cost Build-Up</strong></span></div>
+                        <div class="tb-group">
+                            <button class="tb-btn" onclick="zoomFigure('q3b', -0.15)">Zoom −</button>
+                            <span id="zoom-indicator-q3b" class="zoom-indicator">100%</span>
+                            <button class="tb-btn" onclick="zoomFigure('q3b', 0.15)">Zoom +</button>
+                            <button class="tb-btn" onclick="zoomFigure('q3b', 0, true)">Reset</button>
+                        </div>
+                        <div class="tb-group">
+                            <a id="btn-fs-q3b" class="tb-btn" href="figures/fig_Q4_system_costs.pdf" target="_blank">🔗 Open Fullscreen</a>
+                            <a id="btn-dl-q3b" class="tb-btn" href="figures/fig_Q4_system_costs.pdf" download="fig_Q4_system_costs.pdf">⬇️ Download PDF</a>
+                        </div>
+                    </div>
+                    <div class="viewport-wrapper" id="viewport-wrapper-q3b">
+                        <div class="zoom-target" id="zoom-target-q3b">
+                            <object id="obj-q3b" data="figures/fig_Q4_system_costs.pdf#toolbar=1&navpanes=0&view=Fit" type="application/pdf">
+                                <p style="padding:20px;text-align:center;">PDF not displayed. <a href="figures/fig_Q4_system_costs.pdf" target="_blank">Open PDF</a>.</p>
+                            </object>
+                        </div>
+                    </div>
+                    <div class="caption-bar">
+                        <span>Figure 4: Total annual system expenditure (Capital vs. Variable OPEX) and unit average production cost.</span>
+                        <a class="caption-download-link" href="tables/Table_Q3_System_Costs.csv" download>⬇️ Download System Costs CSV</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-q3-inv" class="tab-pane">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th><th>Site</th><th>Year</th><th>Initial Class</th><th>Upgraded Class</th><th>Nominal Added (kt/yr)</th><th>Effective Added (kt/yr)</th><th>Incremental OCC (MEUR)</th><th>Annual Charge (MEUR/yr)</th><th>Active 2020</th><th>Active 2030</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td><strong>A</strong></td><td>2020</td><td>- (new build)</td><td>Medium</td><td>60.0</td><td>51.0</td><td>30.00</td><td>4.256</td><td>Yes</td><td>Yes</td></tr>
+                        <tr><td>2</td><td><strong>A</strong></td><td>2030</td><td>Medium</td><td>Large</td><td>60.0</td><td>51.0</td><td>18.74</td><td>2.658</td><td>No</td><td>Yes</td></tr>
+                        <tr><td>3</td><td><strong>B</strong></td><td>2030</td><td>- (new build)</td><td>Small</td><td>30.0</td><td>25.5</td><td>18.47</td><td>2.620</td><td>No</td><td>Yes</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="tab-q3-disp" class="tab-pane">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Year</th><th>Demand (kt/yr)</th><th>Site A (kt/yr)</th><th>Site B (kt/yr)</th><th>Total Output (kt/yr)</th><th>Capital Charges (MEUR/yr)</th><th>Variable Costs (MEUR/yr)</th><th>Total System Cost (MEUR/yr)</th><th>Average Cost (EUR/t)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>2020</strong></td><td>45.0</td><td>45.0</td><td>0.0</td><td>45.0</td><td>4.256</td><td>4.050</td><td>8.306</td><td><strong>184.57</strong></td></tr>
+                        <tr><td><strong>2030</strong></td><td>110.0</td><td>102.0</td><td>8.0</td><td>110.0</td><td>9.533</td><td>10.020</td><td>19.553</td><td><strong>177.75</strong></td></tr>
+                    </tbody>
+                </table>
+                <div class="desc-box">
+                    <strong>2030 Infrastructure Deficit & Average Cost Dynamics:</strong><br>
+                    A single site cannot meet 2030 demand because the system-wide maximum permitted plant size is 120 kt/yr (Site A), yielding an effective output of only 102 kt/yr at 85% availability—short of the 110 kt/yr requirement. The system average production cost drops from 184.57 EUR/t in 2020 to 177.75 EUR/t in 2030 because capital-related cost per tonne falls from 94.57 to 86.66 EUR/t. In 2020 the Medium plant at Site A is only partly utilized (45 of 51 kt/yr effective, 88%). In 2030 Site A, upgraded to Large (102 kt/yr effective), runs at 100% and benefits from the stronger economies of scale of the larger class. Variable cost per tonne actually rises slightly (90.00 to 91.09 EUR/t) because 8 kt/yr must come from the more expensive Site B, whose Small plant is only about 31% utilized (8 of 25.5 kt/yr), which partly offsets the gain.
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== CROSS-MODULE SYNTHESIS ==================== -->
+        <div id="sec-all-tasks" class="content-view" style="display:none;">
+            <div class="header-box">
+                <div class="header-tag">Comprehensive Modeling View</div>
+                <div class="header-title">Cross-Module Synthesis & Comparative Dashboard</div>
+                <div class="header-subtitle">Unified multi-panel visualization comparing levelized costs, carbon thresholds, and capacity expansion dynamics.</div>
+            </div>
+
+            <div class="two-cols">
+                <div>
+                    <h4 style="margin-bottom:8px; color:var(--primary);">Static Levelized Cost (Module 1)</h4>
+                    <div class="figure-card">
+                        <div class="viewport-wrapper" style="height:420px;">
+                            <object data="figures/fig_Q1_static_cost.pdf#toolbar=1&navpanes=0&view=Fit" type="application/pdf" style="width:100%;height:100%;border:none;"></object>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom:8px; color:var(--primary);">Carbon Sensitivity Sweep (Module 2)</h4>
+                    <div class="figure-card">
+                        <div class="viewport-wrapper" style="height:420px;">
+                            <object data="figures/fig_Q2_carbon_sweep.pdf#toolbar=1&navpanes=0&view=Fit" type="application/pdf" style="width:100%;height:100%;border:none;"></object>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-cols" style="margin-top:14px;">
+                <div>
+                    <h4 style="margin-bottom:8px; color:var(--primary);">Capacity & Dispatch (Module 3)</h4>
+                    <div class="figure-card">
+                        <div class="viewport-wrapper" style="height:420px;">
+                            <object data="figures/fig_Q3_capacity_dispatch.pdf#toolbar=1&navpanes=0&view=Fit" type="application/pdf" style="width:100%;height:100%;border:none;"></object>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom:8px; color:var(--primary);">System Expenditure Build-Up (Module 3)</h4>
+                    <div class="figure-card">
+                        <div class="viewport-wrapper" style="height:420px;">
+                            <object data="figures/fig_Q4_system_costs.pdf#toolbar=1&navpanes=0&view=Fit" type="application/pdf" style="width:100%;height:100%;border:none;"></object>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TABLES ==================== -->
+        <div id="sec-tables" class="content-view" style="display:none;">
+            <div class="header-box">
+                <div class="header-tag">Data Architecture</div>
+                <div class="header-title">Data & Output Browser</div>
+                <div class="header-subtitle">Direct access to all quantitative tables generated by the mathematical optimization model.</div>
+            </div>
+
+            <div class="tab-bar">
+                <button class="tab-btn active" onclick="switchTab(this, 'tb-pane-q1')">Table 1: Static Cost</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tb-pane-be')">Table 2: Break-Even</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tb-pane-inv')">Table 3: Investment Schedule</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tb-pane-sys')">Table 4: System Costs</button>
+            </div>
+
+            <div id="tb-pane-q1" class="tab-pane active">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h4 style="color:var(--primary);">Table 1: Levelized Static Production Cost Breakdown</h4>
+                    <div>
+                        <a class="tb-btn caption-download-link" href="tables/Table_Q1_Static_Cost.csv" download>⬇️ Download CSV</a> &nbsp;|&nbsp;
+                        <a class="tb-btn caption-download-link" href="tables/Table_Q1_Static_Cost.txt" download>⬇️ Download TXT</a>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr><th>Site</th><th>Class</th><th>Nominal (kt)</th><th>OCC (MEUR)</th><th>Annual Charge (MEUR)</th><th>Annual Prod (Mt)</th><th>Fixed (EUR/t)</th><th>Var (EUR/t)</th><th>Total (EUR/t)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>A</td><td>Large</td><td>120.0</td><td>48.74</td><td>6.913</td><td>0.1020</td><td>67.78</td><td>90.00</td><td>157.78</td></tr>
+                        <tr><td>B</td><td>Medium</td><td>60.0</td><td>30.00</td><td>4.256</td><td>0.0510</td><td>83.44</td><td>105.00</td><td>188.44</td></tr>
+                        <tr><td>C</td><td>Small</td><td>30.0</td><td>18.47</td><td>2.620</td><td>0.0255</td><td>102.73</td><td>128.00</td><td>230.73</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="tb-pane-be" class="tab-pane">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h4 style="color:var(--primary);">Table 2: Analytical Carbon Break-Even Thresholds</h4>
+                    <div>
+                        <a class="tb-btn caption-download-link" href="tables/Table_Q2_Breakeven.csv" download>⬇️ Download CSV</a> &nbsp;|&nbsp;
+                        <a class="tb-btn caption-download-link" href="tables/Table_Q2_Breakeven.txt" download>⬇️ Download TXT</a>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr><th>Site Comparison</th><th>Break-Even Price (EUR/t CO₂)</th><th>Active Least-Cost Range</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Site A vs Site B</td><td>122.66</td><td>0 to 122.66 EUR/tCO₂ (Site A is lowest cost)</td></tr>
+                        <tr><td>Site B vs Site C</td><td>169.15</td><td>122.66 to 169.15 EUR/tCO₂ (Site B is lowest cost)</td></tr>
+                        <tr><td>Site A vs Site C</td><td>145.91</td><td>Not on the lower envelope (Site B is cheaper than both A and C at this price)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="tb-pane-inv" class="tab-pane">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h4 style="color:var(--primary);">Table 3: Optimal Capacity Expansion Schedule</h4>
+                    <div>
+                        <a class="tb-btn caption-download-link" href="tables/Table_Q3_Investment_Schedule.csv" download>⬇️ Download CSV</a> &nbsp;|&nbsp;
+                        <a class="tb-btn caption-download-link" href="tables/Table_Q3_Investment_Schedule.txt" download>⬇️ Download TXT</a>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr><th>ID</th><th>Site</th><th>Year</th><th>Initial Class</th><th>Upgraded Class</th><th>Nominal Added</th><th>Effective Added</th><th>OCC (MEUR)</th><th>Annual Charge (MEUR)</th><th>Active 2020</th><th>Active 2030</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>A</td><td>2020</td><td>-</td><td>Medium</td><td>60.0 kt</td><td>51.0 kt</td><td>30.00</td><td>4.256</td><td>Yes</td><td>Yes</td></tr>
+                        <tr><td>2</td><td>A</td><td>2030</td><td>Medium</td><td>Large</td><td>60.0 kt</td><td>51.0 kt</td><td>18.74</td><td>2.658</td><td>No</td><td>Yes</td></tr>
+                        <tr><td>3</td><td>B</td><td>2030</td><td>-</td><td>Small</td><td>30.0 kt</td><td>25.5 kt</td><td>18.47</td><td>2.620</td><td>No</td><td>Yes</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="tb-pane-sys" class="tab-pane">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h4 style="color:var(--primary);">Table 4: System Dispatch & Total Expenditure Summary</h4>
+                    <div>
+                        <a class="tb-btn caption-download-link" href="tables/Table_Q3_System_Costs.csv" download>⬇️ Download CSV</a> &nbsp;|&nbsp;
+                        <a class="tb-btn caption-download-link" href="tables/Table_Q3_System_Costs.txt" download>⬇️ Download TXT</a>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr><th>Year</th><th>Demand</th><th>Site A Output</th><th>Site B Output</th><th>Total Output</th><th>Capital Cost (MEUR)</th><th>Variable Cost (MEUR)</th><th>Total Cost (MEUR)</th><th>Average Unit Cost (EUR/t)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2020</td><td>45.0 kt</td><td>45.0 kt</td><td>0.0 kt</td><td>45.0 kt</td><td>4.256</td><td>4.050</td><td>8.306</td><td>184.57 EUR/t</td></tr>
+                        <tr><td>2030</td><td>110.0 kt</td><td>102.0 kt</td><td>8.0 kt</td><td>110.0 kt</td><td>9.533</td><td>10.020</td><td>19.553</td><td>177.75 EUR/t</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ==================== METHODOLOGY ==================== -->
+        <div id="sec-methodology" class="content-view" style="display:none;">
+            <div class="header-box">
+                <div class="header-tag">Mathematical Framework</div>
+                <div class="header-title">Optimization Methodology & Mathematical Formulation</div>
+                <div class="header-subtitle">Non-linear power scaling, exhaustive enumeration of discrete build paths, and merit-order dispatch logic.</div>
+            </div>
+
+            <div class="desc-box">
+                <strong>1. Non-Linear Overnight Capital Cost Scaling:</strong><br>
+                For any discrete capacity <span class="desc-formula">S</span>, overnight capital cost is given by:
+                <div style="margin:8px 0; font-family:'Courier New', monospace; font-size:1.05rem; font-weight:bold;">
+                    OCC(S) = OCC_ref * (S / S_ref)^b = 30 * (S / 60)^0.70  [MEUR]
+                </div>
+                <br>
+                <strong>2. Capital Recovery Factor (CRF) & Fixed Annual Charge:</strong><br>
+                With discount rate <span class="desc-formula">r = 8%</span> and lifetime <span class="desc-formula">L = 20 years</span>:
+                <div style="margin:8px 0; font-family:'Courier New', monospace; font-size:1.05rem; font-weight:bold;">
+                    CRF = [r * (1 + r)^L] / [(1 + r)^L - 1] = 0.101852  [yr^-1]<br>
+                    f = CRF + FOM_pct = 0.101852 + 0.040000 = 0.141852  [yr^-1]
+                </div>
+                <br>
+                <strong>3. Effective Annual Production at 85% Availability:</strong><br>
+                <div style="margin:8px 0; font-family:'Courier New', monospace; font-size:1.05rem; font-weight:bold;">
+                    Q_eff(S) = S * availability = S * 0.85  [kt product/year]
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== PARAMETERS ==================== -->
+        <div id="sec-parameters" class="content-view" style="display:none;">
+            <div class="header-box">
+                <div class="header-tag">Technical Inputs</div>
+                <div class="header-title">Baseline Technological & Economic Parameters</div>
+                <div class="header-subtitle">Standardized parameters used across the static, sensitivity, and dynamic expansion simulations.</div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr><th>Parameter</th><th>Value</th><th>Unit</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Reference Plant Size</td><td>60.0</td><td>kt product/yr</td><td>Baseline capacity scale for overnight capital</td></tr>
+                    <tr><td>Overnight Capital Cost (Reference)</td><td>30.0</td><td>MEUR</td><td>Upfront cost for a 60 kt/yr facility</td></tr>
+                    <tr><td>Scale Exponent</td><td>0.70</td><td>-</td><td>Power-law scaling parameter reflecting economies of scale</td></tr>
+                    <tr><td>Discount Rate</td><td>8.0</td><td>%</td><td>Weighted average cost of capital (WACC)</td></tr>
+                    <tr><td>Economic Lifetime</td><td>20</td><td>years</td><td>Standard operational lifetime of biorefinery assets</td></tr>
+                    <tr><td>Plant Availability</td><td>85.0</td><td>%</td><td>Operating uptime per annum</td></tr>
+                    <tr><td>Annual Fixed O&M</td><td>4.0</td><td>% of OCC</td><td>Fixed maintenance, insurance, and routine servicing</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT FOR VIEW NAVIGATION, TABS & FIGURE ZOOM -->
+    <script>
+        // --- ZOOM CONTROLLER FOR EMBEDDED PDFS ---
+        window.figureZoomLevels = {
+            'ov': 1.0, 'q1': 1.0, 'q2': 1.0, 'q3a': 1.0, 'q3b': 1.0
+        };
+
+        // Reload the embedded PDF so the viewer returns to its automatic "fit page" state
+        function refitFigure(targetKey) {
+            const obj = document.getElementById('obj-' + targetKey);
+            if (!obj || !obj.parentNode) return;
+            const clone = obj.cloneNode(true);
+            obj.parentNode.replaceChild(clone, obj);
+        }
+
+        function zoomFigure(targetKey, delta, isReset = false) {
+            if (isReset) {
+                window.figureZoomLevels[targetKey] = 1.0;
+                refitFigure(targetKey);
+            } else {
+                let current = window.figureZoomLevels[targetKey] ?? 1.0;
+                let next = Math.max(0.4, Math.min(2.5, Math.round((current + delta) * 100) / 100));
+                window.figureZoomLevels[targetKey] = next;
+            }
+            const zoom = window.figureZoomLevels[targetKey];
+
+            const indicator = document.getElementById('zoom-indicator-' + targetKey);
+            if (indicator) indicator.textContent = Math.round(zoom * 100) + '%';
+
+            const targetWrap = document.getElementById('zoom-target-' + targetKey);
+            if (targetWrap) {
+                targetWrap.style.transformOrigin = '0 0';
+                targetWrap.style.transform = `scale(${zoom})`;
+
+                if (zoom < 1.0) {
+                    targetWrap.style.width = `${100 / zoom}%`;
+                    targetWrap.style.height = `${590 / zoom}px`;
+                } else {
+                    targetWrap.style.width = '100%';
+                    targetWrap.style.height = '590px';
+                }
+            }
+        }
+
+        // --- NAVIGATION ACCORDION ---
+        function toggleAccordion(header) {
+            const body = header.nextElementSibling;
+            const isOpen = header.classList.contains('open');
+            header.classList.toggle('open', !isOpen);
+            body.classList.toggle('open', !isOpen);
+        }
+
+        // --- VIEW SWITCHER ---
+        function showView(viewId, btn) {
+            document.querySelectorAll('.content-view').forEach(v => v.style.display = 'none');
+            document.querySelectorAll('#sidebar .nav-btn').forEach(b => b.classList.remove('active'));
+
+            const target = document.getElementById(viewId);
+            if (target) target.style.display = 'block';
+            if (btn) btn.classList.add('active');
+        }
+
+        // --- TAB SWITCHER ---
+        function switchTab(btn, tabId) {
+            const bar = btn.parentElement;
+            bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const parent = bar.parentElement;
+            parent.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            const targetPane = document.getElementById(tabId);
+            if (targetPane) targetPane.classList.add('active');
+        }
+
+        // --- AUTO-PATH RESOLVER ---
+        async function verifyAssetPaths() {
+            const testUrl = 'figures/fig_Q1_static_cost.pdf';
+            let prefix = '';
+            try {
+                const resp = await fetch(testUrl, { method: 'HEAD' });
+                if (!resp.ok) prefix = 'outputs/';
+            } catch (e) {
+                // If file:// protocol limits HEAD, default remains "figures/"
+            }
+
+            if (prefix) {
+                document.querySelectorAll('object[id^="obj-"]').forEach(obj => {
+                    const cur = obj.getAttribute('data');
+                    if (cur && !cur.startsWith('outputs/')) {
+                        obj.setAttribute('data', prefix + cur);
+                    }
+                });
+                document.querySelectorAll('a[id^="btn-"]').forEach(a => {
+                    const cur = a.getAttribute('href');
+                    if (cur && !cur.startsWith('outputs/')) {
+                        a.setAttribute('href', prefix + cur);
+                    }
+                });
+            }
+        }
+        window.addEventListener('DOMContentLoaded', verifyAssetPaths);
+    </script>
+</body>
+</html>
