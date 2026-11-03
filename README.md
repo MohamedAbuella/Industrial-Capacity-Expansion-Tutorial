@@ -3,9 +3,25 @@
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Optimization: Discrete & LP](https://img.shields.io/badge/Optimization-MILP%20%2F%20Merit--Order-green.svg)]()
-[![Status: Active](https://img.shields.io/badge/Status-Active%20Case%20Study-brightgreen.svg)]()
+[![Live Dashboard](https://img.shields.io/badge/Live%20Dashboard-Explore%20Online-1e3a8a?style=flat&logo=googlechrome&logoColor=white)](#-interactive-visualization-dashboard)
 
 A techno-economic modeling framework and educational case study evaluating multi-period industrial capacity expansion, capital economies of scale, and operational decarbonization under carbon pricing.
+
+---
+
+## 🚀 Live Interactive Dashboard
+
+> ### 🖥️ **[👉 Launch Interactive Web Dashboard Online](https://YOUR-GITHUB-USERNAME.github.io/industrial-capacity-expansion-tutorial/)**  
+> *(Replace `YOUR-GITHUB-USERNAME` with your GitHub username after turning on GitHub Pages, or open [`index.html`](./index.html) locally)*
+
+| Dashboard Feature | Description |
+| :--- | :--- |
+| **🔍 Interactive Vector Viewports** | Embedded PDF figures with integrated **Zoom In (+)**, **Zoom Out (−)**, **Reset**, and **Fullscreen** controls. |
+| **📊 Dynamic KPI Cards** | Live scorecards tracking baseline costs, carbon crossover tipping points, and 2020–2030 cost trajectories. |
+| **📥 One-Click Data Downloads** | Direct access to download generated benchmark `.csv` and raw `.txt` tables for all modules. |
+| **📱 Standalone & Zero-Dependency** | Runs in any modern web browser without server setup or third-party web frameworks. |
+
+*To run locally:* Clone this repository and double-click [`index.html`](./index.html) in your file manager.
 
 ---
 
@@ -60,7 +76,6 @@ subject to:
 ## 📊 Key Benchmark Findings
 
 ### 1. Static Levelized Production Cost (Maximum Permitted Class)
-*Economies of scale dominate untaxed production economics:*
 
 | Site | Permitted Class | Nameplate Capacity ($S$) | OCC [MEUR] | Annual Charge [MEUR/yr] | Effective Output [Mt/yr] | Fixed Cost [€/t] | Variable Cost [€/t] | Total Levelized Cost [€/t] |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -90,16 +105,11 @@ subject to:
 
 ---
 
-## 💻 Interactive Visualization Dashboard
+## 🚀 How to Run the Model Locally
 
-The repository includes a standalone, zero-dependency browser dashboard (`index.html`) featuring:
-- **Interactive PDF Viewports with Zoom Toolbars** (Zoom In/Out, Reset, Fullscreen, PDF download).
-- **Dynamic KPI Scorecards** tracking baseline costs, break-even thresholds, and investment performance.
-- **Tabular Data Browser** with one-click `.csv` and raw `.txt` file downloads.
-- **Multi-Panel Synthesis View** comparing static, policy, and expansion figures side-by-side.
+### 1. Prerequisites
+- Python 3.9+ (Python 3.10+ recommended)
+- `numpy`, `pandas`, `matplotlib`
 
-### How to Open the Dashboard:
-Simply double-click `index.html` in your file explorer, or serve it locally:
 ```bash
-# Using Python's built-in HTTP server
-python -m http.server 8000
+pip install numpy pandas matplotlib
