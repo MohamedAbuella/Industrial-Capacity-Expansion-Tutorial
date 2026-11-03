@@ -1,0 +1,4 @@
+Site_Pair,Break_Even_EUR_tCO2,Dominance_Regime
+Site A vs Site B,122.66449947793276,0 to 122.66 (Site A least-cost)
+Site B vs Site C,169.14904844731223,122.66 to 169.15 (Site B least-cost)
+Site A vs Site C,145.9067739626225,> 169.15 (Site C least-cost)

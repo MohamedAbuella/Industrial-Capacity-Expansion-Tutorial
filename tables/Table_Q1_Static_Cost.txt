@@ -1,0 +1,4 @@
+Site Largest_Permitted_Class  Nameplate_Capacity_kt_yr  Overnight_Capital_Cost_MEUR  Annual_Fixed_Charge_MEUR_yr  Annual_Production_Mt_yr  Unit_Fixed_Cost_EUR_t  Variable_Cost_EUR_t  Total_Unit_Cost_EUR_t
+   A                   Large                     120.0                    48.735144                     6.913188                   0.1020              67.776351                 90.0             157.776351
+   B                  Medium                      60.0                    30.000000                     4.255566                   0.0510              83.442476                105.0             188.442476
+   C                   Small                      30.0                    18.467166                     2.619608                   0.0255             102.729738                128.0             230.729738

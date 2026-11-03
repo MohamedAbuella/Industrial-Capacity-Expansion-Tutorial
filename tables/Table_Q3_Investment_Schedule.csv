@@ -1,0 +1,4 @@
+Investment_ID,Site,Year,Initial_Class,Final_Class,Capacity_Added_Nominal_kt,Capacity_Added_Effective_kt,Incremental_OCC_MEUR,Annual_Charge_MEUR,Active_2020,Active_2030
+1,A,2020,- (new build),Medium,60.0,51.0,30.0,4.255566264694518,Yes,Yes
+2,A,2030,Medium,Large,60.0,51.0,18.735143781374127,2.6576215280072337,No,Yes
+3,B,2030,- (new build),Small,30.0,25.5,18.467166200173743,2.619608316198874,No,Yes
